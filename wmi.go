@@ -392,6 +392,10 @@ func (c *Client) loadEntity(dst interface{}, src *ole.IDispatch) (errFieldMismat
 				}
 				break
 			}
+			if typeof == nil && f.Kind() == reflect.String {
+				// for string field if value is nil, do not return as error, move to next field
+				break
+			}
 			return &ErrFieldMismatch{
 				StructType: of.Type(),
 				FieldName:  n,
